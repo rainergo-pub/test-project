@@ -1,0 +1,18 @@
+[project]
+name = "legacy"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["requests>=2"]
+
+[project.scripts]
+legacy = "legacy.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.ruff]
+line-length = 100

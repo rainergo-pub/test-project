@@ -1,0 +1,7 @@
+{
+  "permissions": {"allow": ["Bash(git commit:*)", "Bash(uv run pytest:*)", "WebFetch(domain:example.com)"]},
+  "hooks": {
+    "Stop": [{"hooks": [{"type": "command", "command": "sh .claude/hooks/notify.sh"}]}],
+    "PostToolUse": [{"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "uvx black --quiet ."}]}]
+  }
+}
