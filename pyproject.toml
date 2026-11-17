@@ -1,0 +1,19 @@
+[project]
+name = "inventory-tools"
+version = "0.3.0"
+description = "Tools to reconcile warehouse stock"
+requires-python = ">=3.12"
+dependencies = ["requests>=2.31"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["inventory"]
+
+[tool.ruff]
+line-length = 100
