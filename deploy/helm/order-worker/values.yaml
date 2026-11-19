@@ -1,0 +1,32 @@
+image:
+  repository: order-worker   # registry path of the image, e.g. registry.example.com/team/order-worker
+  tag: ""                 # empty: appVersion from Chart.yaml
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+
+# Names of existing Kubernetes Secrets; each of their keys becomes an environment variable.
+# Where several Secrets set the same key, the last one wins. The chart never contains secret values:
+#   kubectl create secret generic project-env --from-env-file=env_files/project.env  (once, for all services)
+#   kubectl create secret generic order-worker-env --from-env-file=env_files/order_worker.env
+existingSecrets: []
+
+# Settings that aren't secret, as environment variables (fields of Config).
+env:
+  LOG_HANDLERS: '["json"]'
+
+job:
+  backoffLimit: 2                  # retries before the Job counts as failed
+  ttlSecondsAfterFinished: 3600    # the finished Job and its pod are deleted after one hour
+
+resources:                         # what Kubernetes reserves for a pod, and the most it may use
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+# Folders from outside the image, such as data/ (see /docker-service): the pod's volumes and where they are mounted.
+#   volumes: [{name: data, persistentVolumeClaim: {claimName: <release>-data}}]
+#   volumeMounts: [{name: data, mountPath: /app/data}]
+volumes: []
+volumeMounts: []

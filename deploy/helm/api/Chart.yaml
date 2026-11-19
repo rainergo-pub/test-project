@@ -1,0 +1,6 @@
+apiVersion: v2
+name: api
+description: Runs api as a Kubernetes Deployment with a Service.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
