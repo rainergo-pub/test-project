@@ -1,0 +1,37 @@
+# Passed to logging.config.dictConfig; schema: https://docs.python.org/3/library/logging.config.html#logging-config-dictschema
+# Root level and active handlers come from Config; the log file path comes from DirOrFilePath.
+version = 1
+disable_existing_loggers = false
+
+[formatters.console]
+format = "%(asctime)s | %(levelname)s | %(filename)s | %(lineno)d | %(message)s"
+datefmt = "%Y-%m-%d %H:%M:%S%z"  # %z: the UTC offset, such as +0100
+
+[formatters.json]
+"()" = "project_core.settings.log_configs.JsonFormatter"
+datefmt = "%Y-%m-%d %H:%M:%S%z"  # %z: the UTC offset, such as +0100
+
+[formatters.json.fields]  # JSON key = LogRecord attribute; fields without a value are left out
+time = "asctime"
+level = "levelname"
+logger = "name"
+file = "filename"
+line = "lineno"
+message = "message"
+exception = "exc_text"
+
+[handlers.console]
+class = "logging.StreamHandler"
+formatter = "console"
+
+[handlers.file]
+class = "logging.handlers.RotatingFileHandler"
+formatter = "console"
+maxBytes = 1_000_000
+encoding = "utf-8"
+backupCount = 3
+
+[handlers.json]  # for containers: stdout, which Docker and Kubernetes collect; console keeps the default stderr
+class = "logging.StreamHandler"
+formatter = "json"
+stream = "ext://sys.stdout"

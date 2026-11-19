@@ -1,0 +1,24 @@
+[project]
+name = "worker"
+version = "0.1.0"
+description = "Service worker of oldws"
+requires-python = ">=3.14"
+dependencies = [
+    "pydantic>=2.14.3",
+    "pydantic-settings>=2.16.2",
+    "project-core",
+]
+
+[project.scripts]
+worker = "worker.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+source-exclude = ["**/OLD/**"]  # archived code (see python-style.md)
+wheel-exclude = ["**/OLD/**"]
+
+[tool.uv.sources]
+project-core = { workspace = true }

@@ -1,0 +1,24 @@
+# Runs one service once in a container: docker compose run --rm <service>
+services:
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    env_file:  # the same files the service reads locally; a later file wins
+      - path: env_files/project.env
+        required: false
+      - path: env_files/api.env
+        required: false
+    environment:  # wins over env_file: containers log JSON to stdout, whatever the env files set for local runs
+      LOG_HANDLERS: '["json"]'
+  worker:
+    build:
+      context: .
+      dockerfile: services/worker/Dockerfile
+    env_file:  # the same files the service reads locally; a later file wins
+      - path: env_files/project.env
+        required: false
+      - path: env_files/worker.env
+        required: false
+    environment:  # wins over env_file: containers log JSON to stdout, whatever the env files set for local runs
+      LOG_HANDLERS: '["json"]'

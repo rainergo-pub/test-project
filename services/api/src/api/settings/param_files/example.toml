@@ -1,0 +1,10 @@
+param_1 = "test"                    # root param
+
+[section]
+param_2 = "param_2 value"           # section param
+param_3 = 0.0                       # float must have decimal
+param_4 = [1, 2, 3, 4]
+
+[section.for_dicts_or_subsections]  # subsection param for dict key/vals
+param_5 = 42                        # unfortunately, no tuple or set types in toml
+
