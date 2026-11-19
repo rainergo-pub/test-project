@@ -1,6 +1,6 @@
 import sys
 
-from inventory.stock import diff_counts, load_counts
+from app.stock import diff_counts, load_counts
 
 
 def main():

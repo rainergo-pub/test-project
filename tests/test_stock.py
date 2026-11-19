@@ -1,4 +1,4 @@
-from inventory.stock import diff_counts
+from app.stock import diff_counts
 
 
 def test_diff():

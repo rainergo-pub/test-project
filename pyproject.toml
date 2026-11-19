@@ -3,21 +3,80 @@ name = "inventory-tools"
 version = "0.3.0"
 description = "Tools to reconcile warehouse stock"
 requires-python = ">=3.12"
-dependencies = ["requests>=2.31"]
+dependencies = [
+    "pydantic>=2.14.3",
+    "pydantic-settings>=2.16.2",
+    "requests>=2.31",
+]
 
-[project.optional-dependencies]
-dev = ["pytest"]
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+    "ty>=0.0.102",
+]
+experiments = []  # tools for experiments/ only, such as jupyter; never in an image (see python-style.md)
 
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["inventory"]
+[tool.uv]
+package = false  # app/ runs from the project root (uv run python -m app.main); nothing is built or installed
+default-groups = ["dev", "experiments"]  # uv sync installs both; images get neither
 
 [tool.ruff]
-line-length = 100
-extend-exclude = [".claude"]
+line-length = 120  # target-version is taken from requires-python
+extend-exclude = ["**/OLD/**", ".claude", "experiments"]
+
+[tool.ruff.lint]
+preview = true                  # only for PLR0917 below: explicit-preview-rules enables no other preview rule
+explicit-preview-rules = true
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # import sorting
+    "N",        # pep8 naming
+    "UP",       # pyupgrade: modern syntax for requires-python
+    "B",        # bugbear: likely bugs
+    "A",        # shadowing builtins
+    "C4",       # comprehensions
+    "SIM",      # simplifications
+    "PTH",      # pathlib instead of os.path / open()
+    "RET",      # return statements
+    "ARG",      # unused arguments
+    "PIE",      # misc. unnecessary code
+    "PT",       # pytest style
+    "S",        # bandit security checks
+    "ANN",      # type annotations on every signature
+    "D",        # docstrings
+    "ERA",      # commented-out code
+    "G",        # logging calls (f-strings allowed, see ignore)
+    "PL",       # pylint, incl. magic values (PLR2004)
+    "RUF",      # ruff-specific
+    "TRY",      # exception handling
+    "LOG",      # logging misuse
+    "DTZ",      # timezone-aware datetimes only
+    "PERF",     # performance anti-patterns
+    "FURB",     # modernizations
+    "PLR0917",  # keyword-only parameters (python-style.md §7); a preview rule, so it is named explicitly
+]
+ignore = [
+    "G004",     # log messages may be f-strings (python-style.md)
+    "TRY003",   # long exception messages are fine without custom exception classes
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.pylint]
+max-positional-args = 0  # every parameter besides self and cls is keyword-only
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101", "PLR2004", "D", "PLR0917"]  # asserts, literal expected values, no docstrings; pytest
+                                                    # fills test functions and fixtures by name
+
+[tool.pytest]
+testpaths = ["tests"]
+pythonpath = ["."]  # the project root, so the tests find app/ without an install
+addopts = ["-ra", "--import-mode=importlib", "--strict-markers", "--strict-config", "--ignore-glob=**/OLD/**"]
+xfail_strict = true
 
 [tool.ty.src]
-exclude = [".claude"]
+exclude = ["**/OLD/**", ".claude", "experiments"]
