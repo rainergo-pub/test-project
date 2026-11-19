@@ -12,7 +12,7 @@ cp .env.example .env     # then fill in the secrets
 ## Run
 
 ```bash
-uv run app
+uv run python -m app.main
 ```
 
 ## Check

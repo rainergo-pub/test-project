@@ -32,7 +32,7 @@ wheels = [
 [[package]]
 name = "oldsrc"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 default-groups = ["dev", "experiments"]
 dependencies = [
     { name = "pydantic" },

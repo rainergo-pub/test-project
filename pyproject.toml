@@ -9,9 +9,6 @@ dependencies = [
     "pydantic-settings>=2.16.2",
 ]
 
-[project.scripts]
-app = "app.main:main"
-
 [dependency-groups]
 dev = [
     "pytest>=9.2.0",
@@ -20,17 +17,9 @@ dev = [
 ]
 experiments = []  # tools for experiments/ only, such as jupyter; never in an image (see python-style.md)
 
-[build-system]
-requires = ["uv_build>=0.13.8,<0.14"]
-build-backend = "uv_build"
-
 [tool.uv]
+package = false  # app/ runs from the project root; nothing is built or installed
 default-groups = ["dev", "experiments"]  # uv sync installs both; images get neither
-
-[tool.uv.build-backend]
-module-name = "app"
-source-exclude = ["**/OLD/**"]  # archived code (see python-style.md)
-wheel-exclude = ["**/OLD/**"]
 
 [tool.ruff]
 line-length = 120  # target-version is taken from requires-python
@@ -85,6 +74,7 @@ max-positional-args = 0  # every parameter besides self and cls is keyword-only
 
 [tool.pytest]
 testpaths = ["tests"]
+pythonpath = ["."]  # the project root, so the tests find app/ without an install
 addopts = ["-ra", "--import-mode=importlib", "--strict-markers", "--strict-config", "--ignore-glob=**/OLD/**"]
 xfail_strict = true
 
