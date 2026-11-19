@@ -1,0 +1,25 @@
+# Never in an image: secrets, the Claude setup, local environments, data, experiments, caches and deployment files
+.git
+.env
+.env.*
+env_files
+secrets
+.claude
+CLAUDE*.md
+.venv
+.idea
+.vscode
+tests
+logs
+data
+experiments
+models
+mlruns
+outputs
+deploy
+Dockerfile
+docker-compose.yaml
+**/__pycache__
+.pytest_cache
+.ruff_cache
+**/OLD

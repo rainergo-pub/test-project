@@ -1,0 +1,9 @@
+# Runs the app once in a container: docker compose run --rm app
+services:
+  app:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:  # wins over env_file: containers log JSON to stdout, whatever .env sets for local runs
+      LOG_HANDLERS: '["json"]'
