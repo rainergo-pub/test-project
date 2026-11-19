@@ -26,10 +26,10 @@ uv run pytest
 
 ## Configuration
 
-- **Config** (`src/app/settings/configs.py`, instance `config`): environment-driven, read from env vars or `.env` in the working directory.
+- **Config** (`app/settings/configs.py`, instance `config`): environment-driven, read from env vars or `.env` in the working directory.
   Logging is controlled by `LOG_LEVEL` (`DEBUG` … `CRITICAL`) and `LOG_HANDLERS` (JSON list of `console`, `file`, `json`).
-- **Params** (`src/app/settings/params.py`, instance `param`): domain parameters, set directly or from the TOML files in `src/app/settings/param_files/`.
-- **Paths** (`src/app/settings/dir_or_file_paths.py`, instance `dir_or_file_path`): every filesystem location used by the app.
+- **Params** (`app/settings/params.py`, instance `param`): domain parameters, set directly or from the TOML files in `app/settings/param_files/`.
+- **Paths** (`app/settings/dir_or_file_paths.py`, instance `dir_or_file_path`): every filesystem location used by the app.
 
 All three are frozen pydantic models: their values can't be changed at runtime.
 
